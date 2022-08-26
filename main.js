@@ -3,9 +3,29 @@ const EMPTY_HEART = '♡'
 const FULL_HEART = '♥'
 
 // Your JavaScript code goes here!
+const heart = document.querySelectorAll(".like-glyph");
+for (let like of heart) {
 
-
-
+  like.addEventListener("click", (e) => {
+    const like = e.target;
+    mimicServerCall("https://moringaschool.instructure.com/login/canvas")
+      .then(() => {
+        if (like.innerText === EMPTY_HEART) {
+          like.innerText = FULL_HEART;
+          like.className = "";
+        } else {
+          like.innerText = EMPTY_HEART;
+          like.className = "activated-heart";
+        }
+      })
+      .catch((error) => {
+        const modal = document.getElementById("modal");
+        modal.className = "";
+        modal.innerText = error;
+        setTimeout(() => (modal.className = "hidden"), 3000);
+      });
+  });
+}
 
 //------------------------------------------------------------------------------
 // Don't change the code below: this function mocks the server response
